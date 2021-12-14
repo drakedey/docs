@@ -14,37 +14,43 @@ import java.util.Map;
 
 public class Start implements CommonTrait
 {
-    private static final String TEMPLATE_DOCX = "template.docx";
+    private static final String TEMPLATE_DOCX = "OR-AR2.docx";
     private static final String OUT_GENERATED_DOCX = "/tmp/OUT_generated.docx";
     private static final int DRIVERS_PER_TABLE = 6;
     private final WordprocessingMLPackage wordMLPackage;
     private final MainDocumentPart documentPart;
 
-    private final TableTemplate tableTemplate;
+//    private final TableTemplate tableTemplate;
     private final DataRepository repository = new DataRepository();
 
     private Start() throws Exception
     {
         wordMLPackage = WordprocessingMLPackage.load(new File(Start.class.getResource(TEMPLATE_DOCX).getFile()));
         documentPart = wordMLPackage.getMainDocumentPart();
-        tableTemplate = new TableTemplate(XmlUtils.deepCopy(getTemplateTable(documentPart)));
+//        tableTemplate = new TableTemplate(XmlUtils.deepCopy(getTemplateTable(documentPart)));
     }
 
     private void fillTemplate() throws Exception
     {
-        documentPart.getContent().clear();
-        while (!repository.getDrivers().isEmpty())
-        {
-            List<Driver> drivers = repository.getDrivers().subList(0, getToIndex());
+//        documentPart.getContent().clear();
+//        while (!repository.getDrivers().isEmpty())
+//        {
+//            List<Driver> drivers = repository.getDrivers().subList(0, getToIndex());
+//
+//            documentPart.getContent().add(tableTemplate.fillWithData(repository.getStations(), drivers));
+//            documentPart.getContent().add(createPageBreak());
+//            drivers.clear();
+//
+//        }
+//        clearUnfilledData();
+//
+//        Docx4J.save(wordMLPackage, new File(OUT_GENERATED_DOCX));
+    try {
+        test(documentPart, wordMLPackage);
 
-            documentPart.getContent().add(tableTemplate.fillWithData(repository.getStations(), drivers));
-            documentPart.getContent().add(createPageBreak());
-            drivers.clear();
-
-        }
-        clearUnfilledData();
-
-        Docx4J.save(wordMLPackage, new File(OUT_GENERATED_DOCX));
+    } catch (Exception exception){
+        exception.printStackTrace();
+    }
     }
 
     private int getToIndex()
